@@ -187,5 +187,5 @@ test.only('TC_05-OrangeHRM Login, Navigate to Time & Buzz, Post Message, Like an
   // ✅ Done!
   console.log("Successfully completed all actions!");
   await page.waitForTimeout(5000); // Pause to verify actions before closing
-  await browser.close();
+  await browser.close();;;;;;
 });
