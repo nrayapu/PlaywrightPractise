@@ -138,7 +138,7 @@ test('TC_04-OrangeHRM Login, Navigate to Time & Buzz, Post Message', async ({ pa
 
 });
 
-test.only('TC_05-OrangeHRM Login, Navigate to Time & Buzz, Post Message,Like and comment', async ({ page }) => {
+test.only('TC_05-OrangeHRM Login, Navigate to Time & Buzz, Post Message, Like and comment', async ({ page }) => {
   // Step 1: Open the OrangeHRM login page
   await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
 
@@ -170,23 +170,22 @@ test.only('TC_05-OrangeHRM Login, Navigate to Time & Buzz, Post Message,Like and
   await page.click('button[type="submit"]');
 
   // Step 8: Wait for the message to appear in the Buzz feed
-
   await page.waitForSelector('p:has-text("admin123")');
   console.log("✅ Successfully posted message: 'admin123'!");
 
-  // Step 9: Like the Latest Post?????********NNNNNNNNNjj
- 
+  // Step 9: Like the Latest Post
+  await page.waitForSelector('.post-like-button'); // 🔹 Adjust selector for the like button
+  await page.click('.post-like-button'); // ✅ Click the like button
+  console.log("✅ Successfully liked the latest post!");
 
-  
   // Step 10: Comment "I love it"
-    await page.waitForSelector('.comment-button');
-    await page.click('.comment-button');
-    await page.fill('.comment-input', 'I love it'); // 🔹 Adjust selector
-    await page.press('.comment-input', 'Enter'); // ✅ Submit comment
+  await page.waitForSelector('.comment-button');
+  await page.click('.comment-button');
+  await page.fill('.comment-input', 'I love it'); // 🔹 Adjust selector
+  await page.press('.comment-input', 'Enter'); // ✅ Submit comment
 
-    // ✅ Done!
-    console.log("Successfully completed all actions!");
-    await page.waitForTimeout(5000); // Pause to verify actions before closing
-    await browser.close();
-
+  // ✅ Done!
+  console.log("Successfully completed all actions!");
+  await page.waitForTimeout(5000); // Pause to verify actions before closing
+  await browser.close();
 });
