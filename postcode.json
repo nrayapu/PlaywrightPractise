@@ -1,0 +1,47 @@
+{
+    "locations": [
+      {
+        "postcode": "2150",
+        "suburb": "HARRIS PARK",
+        "state": "NSW",
+        "region": {
+          "id": "AU-NSW",
+          "value": {
+            "isoCode": "AU-NSW",
+            "code": "NSW",
+            "name": "New South Wales",
+            "isoCountryCode": "AU"
+          }
+        }
+      },
+      {
+        "postcode": "2150",
+        "suburb": "PARRAMATTA",
+        "state": "NSW",
+        "region": {
+          "id": "AU-NSW",
+          "value": {
+            "isoCode": "AU-NSW",
+            "code": "NSW",
+            "name": "New South Wales",
+            "isoCountryCode": "AU"
+          }
+        }
+      },
+      {
+        "postcode": "2150",
+        "suburb": "PARRAMATTA WESTFIELD",
+        "state": "NSW",
+        "region": {
+          "id": "AU-NSW",
+          "value": {
+            "isoCode": "AU-NSW",
+            "code": "NSW",
+            "name": "New South Wales",
+            "isoCountryCode": "AU"
+          }
+        }
+      }
+    ]
+  }
+  

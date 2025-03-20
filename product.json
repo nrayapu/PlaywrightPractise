@@ -1,0 +1,100 @@
+{
+  "products": [
+    {
+      "productCode": "880945",
+      "state": "NSW",
+      "expectedResults": {
+        "priceRange": {
+          "min": { "amount": 39900 },
+          "max": null
+        },
+        "savingsRange": {
+          "min": { "amount": 30000 },
+          "max": null
+        },
+        "unitPrice": null,
+        "promo": {
+          "label": "40% OFF",
+          "colourCode": "savePercentagePrice",
+          "messages": null,
+          "promoMessages": null,
+          "promoLabel": false,
+          "rrrpromoMessagePresent": false,
+          "onlineOnlyPromotion": false
+        },
+        "afterPay": { "amount": 9975 },
+        "eligibleForZipPay": true,
+        "minDeliveryCost": null,
+        "potentialPromotions": [],
+        "rrp": null,
+        "wasPrice": null,
+        "wasPriceDate": null
+      }
+    },
+    {
+      "productCode": "399708",
+      "state": "NSW",
+      "expectedResults": {
+        "priceRange": {
+          "min": { "amount": 39900 },
+          "max": null
+        },
+        "savingsRange": {
+          "min": { "amount": 20000 },
+          "max": null
+        },
+        "unitPrice": null,
+        "promo": {
+          "label": "30% OFF",
+          "colourCode": "savePercentagePrice",
+          "messages": null,
+          "promoMessages": null,
+          "promoLabel": false,
+          "rrrpromoMessagePresent": false,
+          "onlineOnlyPromotion": false
+        },
+        "afterPay": { "amount": 9975 },
+        "eligibleForZipPay": true,
+        "minDeliveryCost": null,
+        "potentialPromotions": [],
+        "rrp": null,
+        "wasPrice": null,
+        "wasPriceDate": null
+      }
+    },
+    {
+      "productCode": "334715",
+      "state": "NSW",
+      "expectedResults": {
+        "priceRange": {
+          "min": { "amount": 1920 },
+          "max": null
+        },
+        "savingsRange": {
+          "min": { "amount": 1280 },
+          "max": null
+        },
+        "unitPrice": {
+          "unit": "100 G",
+          "price": { "amount": 1920 }
+        },
+        "promo": {
+          "label": "40% OFF",
+          "colourCode": "savePercentagePrice",
+          "messages": null,
+          "promoMessages": null,
+          "promoLabel": false,
+          "rrrpromoMessagePresent": false,
+          "onlineOnlyPromotion": false
+        },
+        "afterPay": { "amount": 480 },
+        "eligibleForZipPay": true,
+        "minDeliveryCost": null,
+        "potentialPromotions": [],
+        "rrp": null,
+        "wasPrice": null,
+        "wasPriceDate": null
+      }
+    }
+  ]
+}
