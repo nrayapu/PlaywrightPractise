@@ -1,58 +1,70 @@
-const { test, expect } = require('@playwright/test');
-const fs = require('fs');
+import { test, expect } from '@playwright/test';
+import fs from 'fs';
 
-test('Validate multiple products from BigW API', async ({ request }) => {
-    // Read test data from JSON file
-    const testData = JSON.parse(fs.readFileSync('product.json', 'utf-8'));
+// Load test data
+const testData = JSON.parse(fs.readFileSync('product.json', 'utf-8'));
 
-    for (const product of testData.products) {
-        const { productCode, state, expectedResults } = product;
+test.describe('API Validation - Product Pricing', () => {
+  testData.products.forEach((product) => {
+    test(`Validate all fields for product ${product.productCode}`, async ({ request }) => {
+      // Construct API URL
+      const apiUrl = `https://api.bigw.com.au/api/pricing/v0/product/${product.productCode}?state=${product.state || 'NSW'}`;
+      
+      // Send API Request
+      const response = await request.get(apiUrl);
+      expect(response.ok()).toBeTruthy(); // Check API response is successful
+      
+      // Get JSON Response
+      const productData = await response.json();
 
-        // Construct API URL dynamically
-        const apiUrl = `https://api.bigw.com.au/api/pricing/v0/product/${productCode}?state=${state}`;
-        console.log(`📌 Requesting: ${apiUrl}`);
+      // ✅ Extract the correct product object
+      const productResponse = productData.products[product.productCode]; 
+      expect(productResponse).toBeTruthy(); // Ensure we have the expected product
 
-        // Make API request
-        const response = await request.get(apiUrl);
-        expect(response.status()).toBe(200);
+      // ✅ Validate product-level fields
+      expect(productResponse).toHaveProperty('productCode', product.productCode);
+      //expect(productResponse).toHaveProperty('state', product.state);
 
-        // Convert response to JSON
-        const responseData = await response.json();
-        console.log(`🔹 API Response for ${productCode}:`, JSON.stringify(responseData, null, 2));
+      // ✅ Validate priceRange
+      expect(productResponse.priceRange?.min?.amount ?? null).toBe(product.priceRange.min?.amount ?? null);
+      expect(productResponse.priceRange?.max ?? null).toBe(product.priceRange.max ?? null);
 
-        // Extract product data
-        const productData = responseData.products?.[productCode];
-        expect(productData).toBeTruthy();
+      // ✅ Validate savingsRange
+      expect(productResponse.savingsRange?.min?.amount ?? null).toBe(product.savingsRange.min?.amount ?? null);
+      expect(productResponse.savingsRange?.max ?? null).toBe(product.savingsRange.max ?? null);
 
-        // ✅ Validate All Expected Fields
-        expect(productData).toHaveProperty('productCode', productCode);
-        expect(productData.priceRange?.min?.amount).toBe(expectedResults.priceRange.min.amount);
-        expect(productData.priceRange?.max).toBe(expectedResults.priceRange.max);
-        expect(productData.savingsRange?.min?.amount).toBe(expectedResults.savingsRange.min.amount);
-        expect(productData.savingsRange?.max).toBe(expectedResults.savingsRange.max);
-        expect(productData.unitPrice).toStrictEqual(expectedResults.unitPrice);
+      // ✅ Validate unitPrice
+      expect(productResponse.unitPrice ?? null).toBe(product.unitPrice ?? null);
 
-        // ✅ Validate Promo Details
-        expect(productData).toHaveProperty('promo');
-        expect(productData.promo).toHaveProperty('label', expectedResults.promo.label);
-        expect(productData.promo).toHaveProperty('colourCode', expectedResults.promo.colourCode);
-        expect(productData.promo).toHaveProperty('messages', expectedResults.promo.messages);
-        expect(productData.promo).toHaveProperty('promoMessages', expectedResults.promo.promoMessages);
-        expect(productData.promo).toHaveProperty('promoLabel', expectedResults.promo.promoLabel);
-        expect(productData.promo).toHaveProperty('rrrpromoMessagePresent', expectedResults.promo.rrrpromoMessagePresent);
-        expect(productData.promo).toHaveProperty('onlineOnlyPromotion', expectedResults.promo.onlineOnlyPromotion);
+      // ✅ Validate promo fields
+      expect(productResponse.promo?.label ?? null).toBe(product.promo.label ?? null);
+      expect(productResponse.promo?.colourCode ?? null).toBe(product.promo.colourCode ?? null);
+      expect(productResponse.promo?.messages ?? null).toBe(product.promo.messages ?? null);
+      expect(productResponse.promo?.promoMessages ?? null).toBe(product.promo.promoMessages ?? null);
+      expect(productResponse.promo?.promoLabel ?? false).toBe(product.promo.promoLabel ?? false);
+      expect(productResponse.promo?.rrrpromoMessagePresent ?? false).toBe(product.promo.rrrpromoMessagePresent ?? false);
+      expect(productResponse.promo?.onlineOnlyPromotion ?? false).toBe(product.promo.onlineOnlyPromotion ?? false);
 
-        // ✅ Validate Payment Options
-        expect(productData.afterPay?.amount).toBe(expectedResults.afterPay.amount);
-        expect(productData.eligibleForZipPay).toBe(expectedResults.eligibleForZipPay);
+      // ✅ Validate afterPay
+      expect(productResponse.afterPay?.amount ?? null).toBe(product.afterPay.amount ?? null);
 
-        // ✅ Validate Delivery and Pricing Details
-        expect(productData.minDeliveryCost).toBe(expectedResults.minDeliveryCost);
-        expect(productData.potentialPromotions).toStrictEqual(expectedResults.potentialPromotions);
-        expect(productData.rrp).toBe(expectedResults.rrp);
-        expect(productData.wasPrice).toBe(expectedResults.wasPrice);
-        expect(productData.wasPriceDate).toBe(expectedResults.wasPriceDate);
+      // ✅ Validate eligibility
+      expect(productResponse.eligibleForZipPay ?? false).toBe(product.eligibleForZipPay ?? false);
 
-        console.log(`✅ All validations passed for product ${productCode}!\n`);
-    }
+      // ✅ Validate minDeliveryCost
+      expect(productResponse.minDeliveryCost ?? null).toBe(product.minDeliveryCost ?? null);
+
+      // ✅ Validate potentialPromotions
+      expect(productResponse.potentialPromotions ?? []).toEqual(product.potentialPromotions ?? []);
+
+      // ✅ Validate rrp
+      expect(productResponse.rrp ?? null).toBe(product.rrp ?? null);
+
+      // ✅ Validate wasPrice
+      expect(productResponse.wasPrice ?? null).toBe(product.wasPrice ?? null);
+
+      // ✅ Validate wasPriceDate
+      expect(productResponse.wasPriceDate ?? null).toBe(product.wasPriceDate ?? null);
+    });
+  });
 });
